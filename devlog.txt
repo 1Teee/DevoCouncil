@@ -1,0 +1,3 @@
+FORMAT: 
+firstL -- TIMESTAMP\n (e.g.: tawabB -- 1969-04-20 12:34)
+
