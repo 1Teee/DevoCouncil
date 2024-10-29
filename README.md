@@ -4,7 +4,10 @@
 <br>
 <b>Description of Project: </b> 
 The website is used for minimalistic blogging purposes. Once users register for an account and log in, users will be able to create/edit their own blogs and read other users' blogs. A search bar will be provided to navigate and search through the blogs.
+</br>
+<br>
 <b>Roles: </b>
+
 Tawab (PM): Back End(SQLITE/databases)
 Facilitate storage of blog private keys in user’s profile (to allow edit access and viewing of past entries) 
 Facilitate storage of blog entries as list items connected to the keys in the user's profile
@@ -20,6 +23,8 @@ Style search results page
 
 Nia: Middleware (Flask, Python) + HTML
 Facilitate user sessions/accounts and permissions (admin or user, usernames and passwords, login/logout and signup)
+</br>
 <br>
 <b>Install guide:</b> [placeholder for how to clone/install]
+</br>
 <b>Launch codes: </b> [placeholder for how to run]
