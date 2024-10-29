@@ -3,3 +3,5 @@ firstL -- TIMESTAMP\n (e.g.: tawabB -- 1969-04-20 12:34)
 
 niaL -- 2024-10-24 00:50
 Added design doc
+ivanG -- 2024-10-28 10:30
+Added our updated design doc based on feedback, mostly on permission levels and clarifying details on functionality of some of our code, such as who can see blogs, how post drafts can be saved, etc
