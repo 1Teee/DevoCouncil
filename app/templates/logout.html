@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<!--
+  # Devo Council (Ivan, Tawab, Alex, Nia)
+  # SoftDev
+  # P00: Move Slowly and Fix Things
+  # Due 2024-11-06
+  # time spent: 12 days
+ -->
+
+
+<html>
+
+  <head>
+    <title> LOGOUT PAGE </title>
+  </head>
+
+  <body>
+    <h1>
+      {{username}}, are you sure you wish to logout?
+    </h1>
+    <form action="/logout" method="POST">
+      <input type="submit" name="back", value="Go back">
+    </form>
+    <br>
+    <form action="/logout" method="POST">
+      <input type="submit" name="logout", value="Logout">
+    </form>
+    <br>
+  </body>
+
+</html>
