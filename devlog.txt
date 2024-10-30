@@ -11,3 +11,6 @@ alexL -- 2024-10-29 22:51
 updated the README.md 
 tawabB -- 2024-10-30 10:35
 fixed README.md and fixed/updated devlog.txt
+- updated README: order of steps so that venv was not created inside repo after cloning
+- updated README: file path in Launch Codes step 1, corrected file path
+- updated devlog: summarized updates from in-class peer review activity (deliverables for R 2024-10-31)
