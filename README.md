@@ -25,6 +25,19 @@ Nia: Middleware (Flask, Python) + HTML
 Facilitate user sessions/accounts and permissions (admin or user, usernames and passwords, login/logout and signup)
 </br>
 <br>
-<b>Install guide:</b> [placeholder for how to clone/install]
+<b>Install guide:</b> 
+<p>1) Open terminal and nav to directory where you want to place files</p>
+<p>2)  clone the repo with:</p>
+<p><code>git clone https://github.com/1Teee/DevoCouncil.git</code></p>
+<p>3) cd into the repo </p>
+<p>4) setup a virtual environment</p>
+<p><code>python3 -m venv foo</code></p>
+<p> 5) activate virtual environment</p>
+<p><code>source foo/bin/activate</code></p>
+<p>6) install required packages</p>
+<p><code>pip install -r requirements.txt</code></p>
 </br>
-<b>Launch codes: </b> [placeholder for how to run]
+<b>Launch codes: </b> 
+<p>1) start the server with:</p>
+<p><code>python3 app.py</code></p>
+<p>2) Open firefox and go to <code>http://127.0.0.1:5000</code></p>
