@@ -18,18 +18,16 @@ app.secret_key = "1234";
 #         return "Welcome back " + session['username']
 #     return "Hello Stranger."
 
+@app.route(("/"), methods=['GET', 'POST'])
+def home():
+    if 'username' in session:
+        return render_template( 'home.html' )
+    return redirect(url_for('login'))
 
-@app.route(("/") , methods=['GET', 'POST'])
+@app.route(("/login") , methods=['GET', 'POST'])
 def login():
-    # we though it is a good idea to always clear username from session if someone
-    # wanders back to the login page via buttons or with the URL. For example, if they were at
-    # the reponse page and tried to go back to the home page, and then GO BACK to the
-    # response page, it would now remove their info and send them to the login page via
-    # the code in response, since without this line, session would still have their username
-    # and it would give them a response, which we thought would be weird
-    session.pop('username', None)
-    # if there is a submission with post...
     if request.method == 'POST':
+        print("HELLo")
         # ...then we put their username into our session
         session['username'] = request.form['username']
 
@@ -42,9 +40,10 @@ def login():
         # print(session['username'])
 
         # since user inputed something, send them to the response page
-        return redirect(url_for('response'))
+        return redirect(url_for('home'))
 
     # otherwise we display the login page
+    print("HI")
     return render_template( 'login.html' )
 
 @app.route("/response", methods=['GET', 'POST'])
