@@ -3,7 +3,7 @@ Devo Council - Tawab Berri, Ivan Gontchar, Nia Lam, Alex Luo
 SoftDev
 2024-10-29
 p00 - Scenario Two - Blog Website
-time spent: 0 hrs
+time spent: 2 hrs
 '''
 from flask import Flask, render_template, request, session, redirect, url_for
 
