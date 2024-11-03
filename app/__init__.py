@@ -19,7 +19,7 @@ app.secret_key = "1234";
 #     return "Hello Stranger."
 
 
-@app.route(("/") , methods=['GET', 'POST'])
+@app.route(("/login") , methods=['GET', 'POST'])
 def login():
     # we though it is a good idea to always clear username from session if someone
     # wanders back to the login page via buttons or with the URL. For example, if they were at
