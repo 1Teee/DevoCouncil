@@ -33,3 +33,5 @@ ivanG -- 2024-11-2 21:32
 
 tawabB -- 2024-11-3 15:40
 * began experimenting with sqlite database creation and storage of user info, fixed logout system
+tawabB -- 2024-11-3 16:30
+* successfully facilitated storage of user information in database with sqlite

@@ -19,12 +19,13 @@ app.secret_key = "1234"
 db = sqlite3.connect(DB_FILE, check_same_thread=False) #open if file exists, otherwise create
 c = db.cursor()  #facilitate db ops -- you will use cursor to trigger db events
 
+#c.execute("DROP TABLE users;")
 c.execute(
 '''
 CREATE TABLE IF NOT EXISTS users (
         name TEXT PRIMARY KEY,
-        password TEXT
-        key TEXT
+        password TEXT,
+        privatekey TEXT
         );
 ''') 
 # add more data rows as needed
@@ -49,9 +50,17 @@ def login():
         print("HELLo")
         # ...then we put their username into our session
         session['username'] = request.form['username']
-        c.execute('INSERT OR IGNORE INTO users (name, password, key) VALUES (?, ?, ?)', (request.form['username'], request.form['password'], os.urandom(32)))
+
+        newdata = [request.form['username'], request.form['password'], os.urandom(32)]
+        c.execute("INSERT OR IGNORE INTO users VALUES (?, ?, ?);", newdata); 
         db.commit()
-        #c.execute('SELECT * FROM users')
+
+        #PRINT STATEMENT
+        c.execute('SELECT * FROM users;')
+        result = c.fetchall()
+        print("USERS:")
+        for row in result:
+            print(result)
         
         # we tried this print below because we thought that request.cookies.get
         # was equivalent to request.form, based on the notes, however, this prints
