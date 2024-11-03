@@ -1,4 +1,4 @@
-FORMAT: 
+FORMAT:
 firstL -- TIMESTAMP\n (e.g.: tawabB -- 1969-04-20 12:34)
 
 niaL -- 2024-10-24 00:50
@@ -7,8 +7,8 @@ ivanG -- 2024-10-28 10:30
 Added our updated design doc based on feedback, mostly on permission levels and clarifying details on functionality of some of our code, such as who can see blogs, how post drafts can be saved, etc
 tawabB -- 2024-10-29 20:30
 made and uploaded team flag
-alexL -- 2024-10-29 22:51 
-updated the README.md 
+alexL -- 2024-10-29 22:51
+updated the README.md
 tawabB -- 2024-10-30 10:35
 fixed README.md and fixed/updated devlog.txt
 - updated README: order of steps so that venv was not created inside repo after cloning
@@ -17,3 +17,5 @@ fixed README.md and fixed/updated devlog.txt
 ivanG -- 2024-10-30 17:51
 - updated README: added having python being installed on the machine that runs the code
 - added a lot of files with shell code in templates, and some shell code in __innit__.py, that we can build on. This was done in school but there was not enough time to fill out the devlog
+ivanG -- 2024-11-2 21:32
+- did work on the home and login page, with some basics to start out, where it sees if the user is logged in, if not it sends them to the login page. This was done in class on 10-31, but alas, the period ended before I could update the devlog.
