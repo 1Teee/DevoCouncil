@@ -1,4 +1,4 @@
-FORMAT: 
+FORMAT:
 firstL -- TIMESTAMP\n (e.g.: tawabB -- 1969-04-20 12:34)
 
 niaL -- 2024-10-24 00:50
@@ -10,8 +10,8 @@ ivanG -- 2024-10-28 10:30
 tawabB -- 2024-10-29 20:30
 * made and uploaded team flag
 
-alexL -- 2024-10-29 22:51 
-* updated the README.md 
+alexL -- 2024-10-29 22:51
+* updated the README.md
 
 tawabB -- 2024-10-30 10:35
 * fixed README.md and fixed/updated devlog.txt
@@ -27,3 +27,6 @@ ivanG -- 2024-10-30 17:51
 tawabB -- 2024-10-31 10:50
 * cleaned up devlog.txt, made it more organized and visually appealing
 
+ivanG -- 2024-11-2 21:32
+* update devlog
+  - did work on the home and login page, with some basics to start out, where it sees if the user is logged in, if not it sends them to the login page. This was done in class on 10-31, but alas, the period ended before I could update the devlog.

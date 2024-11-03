@@ -7,10 +7,28 @@ time spent: 0 hrs
 '''
 from flask import Flask, render_template, request, session, redirect, url_for
 
+import sqlite3
+import os
+
 app = Flask(__name__)    #create Flask object
+DB_FILE = "database.db" #create a database for private keys storage
 
 # makin' a supa-secret key
-app.secret_key = "1234";
+app.secret_key = "1234"
+
+db = sqlite3.connect(DB_FILE, check_same_thread=False) #open if file exists, otherwise create
+c = db.cursor()  #facilitate db ops -- you will use cursor to trigger db events
+
+c.execute(
+'''
+CREATE TABLE IF NOT EXISTS users (
+        name TEXT PRIMARY KEY,
+        password TEXT
+        key TEXT
+        );
+''') 
+# add more data rows as needed
+db.commit()
 
 # @app.route(("/"), methods=['GET', 'POST'])
 # def home():
@@ -18,21 +36,22 @@ app.secret_key = "1234";
 #         return "Welcome back " + session['username']
 #     return "Hello Stranger."
 
+@app.route(("/"), methods=['GET', 'POST'])
+def home():
+    if 'username' in session:
+        return render_template( 'home.html' )
+    return redirect(url_for('login'))
 
 @app.route(("/login") , methods=['GET', 'POST'])
 def login():
-    # we though it is a good idea to always clear username from session if someone
-    # wanders back to the login page via buttons or with the URL. For example, if they were at
-    # the reponse page and tried to go back to the home page, and then GO BACK to the
-    # response page, it would now remove their info and send them to the login page via
-    # the code in response, since without this line, session would still have their username
-    # and it would give them a response, which we thought would be weird
-    session.pop('username', None)
-    # if there is a submission with post...
     if request.method == 'POST':
+        print("HELLo")
         # ...then we put their username into our session
         session['username'] = request.form['username']
-
+        c.execute('INSERT OR IGNORE INTO users (name, password, key) VALUES (?, ?, ?)', (request.form['username'], request.form['password'], os.urandom(32)))
+        db.commit()
+        #c.execute('SELECT * FROM users')
+        
         # we tried this print below because we thought that request.cookies.get
         # was equivalent to request.form, based on the notes, however, this prints
         # "None". Perhaps the notes implied that by function it would be the same
@@ -42,9 +61,10 @@ def login():
         # print(session['username'])
 
         # since user inputed something, send them to the response page
-        return redirect(url_for('response'))
+        return redirect(url_for('home'))
 
     # otherwise we display the login page
+    print("HI")
     return render_template( 'login.html' )
 
 @app.route("/response", methods=['GET', 'POST'])
@@ -56,7 +76,7 @@ def response():
             # ...then the user pressed the button to logout, and we send them to the logout page
             return redirect(url_for('logout'))
         # otherwise we display the response page
-        return render_template( 'response.html', username = session['username'])
+        return render_template( 'home.html', username = session['username'])
     # this is something we added in later since we noticed if someone tried to be
     # sneaky and add response to the url from say the home page, it would give an error because there was
     # no username in session, so if they try that without any input, they get sent
