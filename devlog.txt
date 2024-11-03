@@ -30,3 +30,6 @@ tawabB -- 2024-10-31 10:50
 ivanG -- 2024-11-2 21:32
 * update devlog
   - did work on the home and login page, with some basics to start out, where it sees if the user is logged in, if not it sends them to the login page. This was done in class on 10-31, but alas, the period ended before I could update the devlog.
+
+tawabB -- 2024-11-3 15:40
+* began experimenting with sqlite database creation and storage of user info, fixed logout system
