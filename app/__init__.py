@@ -30,6 +30,7 @@ CREATE TABLE IF NOT EXISTS users (
 # add more data rows as needed
 db.commit()
 
+
 # @app.route(("/"), methods=['GET', 'POST'])
 # def home():
 #     if 'username' in session:
