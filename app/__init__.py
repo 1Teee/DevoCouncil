@@ -90,6 +90,22 @@ def editing():
         # result = c.fetchall()
     return redirect(url_for('login'))
 
+@app.route("/viewBlog", methods=['GET', 'POST'])
+def blogView(title):
+    if 'username' in session:
+        print("HEYO")
+        # c.execute(f'SELECT * FROM blogs WHERE title = {title};')
+        # blogInfo = c.fetchall()
+    return redirect(url_for('login'))
+
+app.route("/allBlogs", methods=['GET', 'POST'])
+def allBlogs():
+    if 'username' in session:
+        print("HEYO")
+        # c.execute(f'SELECT * FROM blogs;')
+        # blogs = c.fetchall()
+    return redirect(url_for('login'))
+
 @app.route("/logout", methods=['GET', 'POST'])
 def logout():
     if 'username' in session:
