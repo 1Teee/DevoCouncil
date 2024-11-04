@@ -54,6 +54,26 @@ def home():
 @app.route(("/login") , methods=['GET', 'POST'])
 def login():
     if request.method == 'POST':
+        nameInput = request.form['username']
+        userKey = c.execute(f"SELECT password FROM users WHERE name = {session['username']};")
+        print(userKey)
+
+        newdata = [request.form['username'], request.form['password'], os.urandom(32)]
+        c.execute("INSERT OR IGNORE INTO users VALUES (?, ?, ?);", newdata)
+        db.commit()
+
+        #PRINT STATEMENT
+        c.execute('SELECT * FROM users;')
+        result = c.fetchall()
+        print("USERS:")
+        for row in result:
+            print(result)
+        return redirect(url_for('home'))
+    return render_template( 'login.html' )
+
+@app.route(("/register") , methods=['GET', 'POST'])
+def register():
+    if request.method == 'POST':
         session['username'] = request.form['username']
 
         newdata = [request.form['username'], request.form['password'], os.urandom(32)]

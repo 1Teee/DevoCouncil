@@ -40,3 +40,6 @@ alexL -- 2024-11-3 11:00
 * added style.css and basic css elements of home.html (nav, css reset, general body styling)
 ivanG -- 2024-11-3 23:54
 * began writing code for creating a databse that will store all users' blogs. Also added some code that will be used in all our blog related html files, but it's commented out for now, because we need further python file/html file development to use it.
+
+ivanG -- 2024-11-4 10:46
+* added some base code for registering VS logging in. to be worked on by PMTB
