@@ -114,8 +114,9 @@ def logout():
                 session.pop('username', None)
                 return redirect(url_for('login'))
             else:
-                return redirect(url_for('blogCreate'))
+                return redirect(url_for('response'))
         return render_template( 'logout.html', username = session['username'])
+
     return redirect(url_for('login'))
 
 
