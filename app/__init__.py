@@ -69,6 +69,18 @@ def login():
         return redirect(url_for('home'))
     return render_template( 'login.html' )
 
+@app.route("/response", methods=['GET', 'POST'])
+def response():
+    # if we have info on the person, aka their username...
+    if 'username' in session:
+        # if there is a submission with post...
+        if request.method == 'POST':
+                        # ...then the user pressed the button to logout, and we send them to the logout page
+            return redirect(url_for('logout'))
+        # otherwise we display the response page
+        return render_template( 'home.html', username = session['username'])
+    return redirect(url_for('login'))
+
 @app.route("/createBlog", methods=['GET', 'POST'])
 def blogCreate():
     if 'username' in session:
