@@ -66,9 +66,7 @@ def login():
         print("USERS:")
         for row in result:
             print(result)
-
         return redirect(url_for('home'))
-
     return render_template( 'login.html' )
 
 @app.route("/createBlog", methods=['GET', 'POST'])
@@ -77,16 +75,19 @@ def blogCreate():
         if request.method == 'POST':
             # userKey = c.execute(f"SELECT privatekey FROM users WHERE name = {session['username']};")
             # blogData = [request.form['title'], request.form['summary'], request.form['content'], request.form['author'], request.form['datePublished'], userKey]
-            c.execute("INSERT INTO blogs VALUES (?, ?, ?, ?, ?, ?)", blogData)
-            db.commit()
+            # c.execute("INSERT INTO blogs VALUES (?, ?, ?, ?, ?, ?)", blogData)
+            # db.commit()
+            print("XYZ")
         return render_template( 'home.html', username = session['username'])
-
     return redirect(url_for('login'))
 
 @app.route("/myBlogs", methods=['GET', 'POST'])
 def editing():
     if 'username' in session:
-
+        print("HEYO")
+        # userKey = c.execute(f"SELECT privatekey FROM users WHERE name = {session['username']};")
+        # c.execute(f'SELECT * FROM blogs WHERE userKey = {userKey};')
+        # result = c.fetchall()
     return redirect(url_for('login'))
 
 @app.route("/logout", methods=['GET', 'POST'])
