@@ -43,3 +43,5 @@ ivanG -- 2024-11-3 23:54
 
 ivanG -- 2024-11-4 10:46
 * added some base code for registering VS logging in. to be worked on by PMTB
+tawabB -- 2024-11-4 10:42
+* fixed logout confirmation page
