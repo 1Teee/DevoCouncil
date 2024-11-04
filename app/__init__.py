@@ -55,12 +55,17 @@ def home():
 def login():
     if request.method == 'POST':
         nameInput = request.form['username']
-        userKey = c.execute(f"SELECT password FROM users WHERE name = {session['username']};")
-        print(userKey)
+        try:
+            userKey = c.execute(f"SELECT password FROM users WHERE name = {nameInput};")
+            print(userKey)
+        except:
+            error_message = "User not in database. Register to make an account!"
 
-        newdata = [request.form['username'], request.form['password'], os.urandom(32)]
-        c.execute("INSERT OR IGNORE INTO users VALUES (?, ?, ?);", newdata)
-        db.commit()
+        #checking if inputted password is the same as password linked to username in database
+        if userKey == request.form['password']:
+            return redirect(url_for('home'))
+        else:
+            return render_template( 'login.html' , error_message = "Incorrect username or password")
 
         #PRINT STATEMENT
         c.execute('SELECT * FROM users;')
@@ -68,8 +73,9 @@ def login():
         print("USERS:")
         for row in result:
             print(result)
+
         return redirect(url_for('home'))
-    return render_template( 'login.html' )
+    return render_template( 'login.html' , error_message = "")
 
 @app.route(("/register") , methods=['GET', 'POST'])
 def register():

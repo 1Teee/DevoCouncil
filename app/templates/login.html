@@ -7,6 +7,11 @@
   # time spent: 12 days
  -->
 
+<style>
+#error {
+  color = (255,0,0);
+}
+</style>
 
 <html>
 
@@ -31,6 +36,8 @@
       <br><br>
       <input type="submit" name="sub1" value="Login">
 
+      <br><br>
+      <p id = "error">{{error_message}}<p>
     </form>
     <br>
     <!-- <form action="/login" method="POST">
