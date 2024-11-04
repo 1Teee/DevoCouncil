@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<!--
+  # Devo Council (Ivan, Tawab, Alex, Nia)
+  # SoftDev
+  # P00: Move Slowly and Fix Things
+  # Due 2024-11-06
+  # time spent: 12 days
+ -->
+
+
+<html>
+
+  <head>
+    <title> REGISTER PAGE </title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+  </head>
+
+  <body>
+    <h1>
+      Howdy, it appears that you need a new account!
+    </h1>
+
+    <h3>
+      Input a new username below.
+    </h3>
+    <form action="/login" method="POST">
+      <p>Username: </p>
+      <input type="text" name="username">
+      <br><br>
+      <p>Set a Password: </p>
+      <input type="text" name="password">
+      <br><br>
+      <input type="submit" name="sub1" value="Login">
+
+    </form>
+    <br>
+    <!-- <form action="/login" method="POST">
+      <input type="text" name="password">
+      <input type="submit" name="sub1" value="Password">
+    </form> -->
+    <br>
+  </body>
+
+</html>
