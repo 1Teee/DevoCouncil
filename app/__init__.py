@@ -54,6 +54,26 @@ def home():
 @app.route(("/login") , methods=['GET', 'POST'])
 def login():
     if request.method == 'POST':
+        nameInput = request.form['username']
+        userKey = c.execute(f"SELECT password FROM users WHERE name = {session['username']};")
+        print(userKey)
+
+        newdata = [request.form['username'], request.form['password'], os.urandom(32)]
+        c.execute("INSERT OR IGNORE INTO users VALUES (?, ?, ?);", newdata)
+        db.commit()
+
+        #PRINT STATEMENT
+        c.execute('SELECT * FROM users;')
+        result = c.fetchall()
+        print("USERS:")
+        for row in result:
+            print(result)
+        return redirect(url_for('home'))
+    return render_template( 'login.html' )
+
+@app.route(("/register") , methods=['GET', 'POST'])
+def register():
+    if request.method == 'POST':
         session['username'] = request.form['username']
 
         newdata = [request.form['username'], request.form['password'], os.urandom(32)]
@@ -68,6 +88,18 @@ def login():
             print(result)
         return redirect(url_for('home'))
     return render_template( 'login.html' )
+
+@app.route("/response", methods=['GET', 'POST'])
+def response():
+    # if we have info on the person, aka their username...
+    if 'username' in session:
+        # if there is a submission with post...
+        if request.method == 'POST':
+                        # ...then the user pressed the button to logout, and we send them to the logout page
+            return redirect(url_for('logout'))
+        # otherwise we display the response page
+        return render_template( 'home.html', username = session['username'])
+    return redirect(url_for('login'))
 
 @app.route("/createBlog", methods=['GET', 'POST'])
 def blogCreate():
