@@ -27,16 +27,23 @@ CREATE TABLE IF NOT EXISTS users (
         password TEXT,
         privatekey TEXT
         );
-''') 
+''')
+
+
+c.execute(
+'''
+CREATE TABLE IF NOT EXISTS blogs (
+        title TEXT PRIMARY KEY,
+        summary TEXT,
+        content TEXT,
+        author TEXT,
+        datePublished TEXT,
+        userKey TEXT
+        );
+''')
 # add more data rows as needed
 db.commit()
 
-
-# @app.route(("/"), methods=['GET', 'POST'])
-# def home():
-#     if 'username' in session:
-#         return "Welcome back " + session['username']
-#     return "Hello Stranger."
 
 @app.route(("/"), methods=['GET', 'POST'])
 def home():
@@ -47,12 +54,10 @@ def home():
 @app.route(("/login") , methods=['GET', 'POST'])
 def login():
     if request.method == 'POST':
-        print("HELLo")
-        # ...then we put their username into our session
         session['username'] = request.form['username']
 
         newdata = [request.form['username'], request.form['password'], os.urandom(32)]
-        c.execute("INSERT OR IGNORE INTO users VALUES (?, ?, ?);", newdata); 
+        c.execute("INSERT OR IGNORE INTO users VALUES (?, ?, ?);", newdata)
         db.commit()
 
         #PRINT STATEMENT
@@ -61,60 +66,39 @@ def login():
         print("USERS:")
         for row in result:
             print(result)
-        
-        # we tried this print below because we thought that request.cookies.get
-        # was equivalent to request.form, based on the notes, however, this prints
-        # "None". Perhaps the notes implied that by function it would be the same
-        # but there are extra steps to set up the cookies
-        # print(request.cookies.get('username'))
 
-        # print(session['username'])
-
-        # since user inputed something, send them to the response page
         return redirect(url_for('home'))
 
-    # otherwise we display the login page
-    print("HI")
     return render_template( 'login.html' )
 
-@app.route("/response", methods=['GET', 'POST'])
-def response():
-    # if we have info on the person, aka their username...
+@app.route("/createBlog", methods=['GET', 'POST'])
+def blogCreate():
     if 'username' in session:
-        # if there is a submission with post...
         if request.method == 'POST':
-            # ...then the user pressed the button to logout, and we send them to the logout page
-            return redirect(url_for('logout'))
-        # otherwise we display the response page
+            # userKey = c.execute(f"SELECT privatekey FROM users WHERE name = {session['username']};")
+            # blogData = [request.form['title'], request.form['summary'], request.form['content'], request.form['author'], request.form['datePublished'], userKey]
+            c.execute("INSERT INTO blogs VALUES (?, ?, ?, ?, ?, ?)", blogData)
+            db.commit()
         return render_template( 'home.html', username = session['username'])
-    # this is something we added in later since we noticed if someone tried to be
-    # sneaky and add response to the url from say the home page, it would give an error because there was
-    # no username in session, so if they try that without any input, they get sent
-    # back to the login screen
+
+    return redirect(url_for('login'))
+
+@app.route("/myBlogs", methods=['GET', 'POST'])
+def editing():
+    if 'username' in session:
+
     return redirect(url_for('login'))
 
 @app.route("/logout", methods=['GET', 'POST'])
 def logout():
-    # if we have info on the person, aka their username...
     if 'username' in session:
-        # if there is a submission with post...
         if request.method == 'POST':
-            # if they pressed the submission named "logout"...
             if request.form.get("logout") is not None:
-                # ...then the user is logging out, and we take their info out of the session...
                 session.pop('username', None)
-                # ... and then we send them back to the login page
                 return redirect(url_for('login'))
-            # ...otherwise they pressed the submission named "back"...
             else:
-                # ...and then we send them back to the response page
-                return redirect(url_for('response'))
-        # send them back to the login page
+                return redirect(url_for('blogCreate'))
         return render_template( 'logout.html', username = session['username'])
-    # this is something we added in later since we noticed if someone tried to be
-    # sneaky and add logout to the url, it would give an error because there was
-    # no username in session, so if they try that without any input, they get sent
-    # back to the login screen
     return redirect(url_for('login'))
 
 
@@ -122,3 +106,5 @@ if __name__ == "__main__": #false if this file imported as module
     #enable debugging, auto-restarting of server when this file is modified
     app.debug = True
     app.run()
+
+db.close()
