@@ -167,11 +167,17 @@ def blogCreate():
 
 @app.route("/myBlogs", methods=['GET', 'POST'])
 def editing():
+    print("TRYING TO SEE MY BLOGS")
     if 'username' in session:
         print("HEYO")
-        userKey = c.execute(f"SELECT privatekey FROM users WHERE name = {session['username']};")
-        c.execute(f'SELECT * FROM blogs WHERE userKey = {userKey};')
+        author = session['username']
+        c.execute("SELECT privatekey FROM users WHERE name = ?", (author,))
+        userKey = c.fetchone()[0]
+        c.execute('SELECT * FROM blogs WHERE userKey = ?;', (userKey,))
         result = c.fetchall()
+        print("MY BLOGS:")
+        for row in result:
+            print(result)
     return redirect(url_for('login'))
 
 @app.route("/viewBlog", methods=['GET', 'POST'])
