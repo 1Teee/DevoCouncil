@@ -85,12 +85,12 @@ def login():
                 u = request.form['username']
                 session['username'] = request.form['username']
                 return render_template( 'home.html' , username = u)
+            else:
+                return render_template( 'login.html' , error_message = "Incorrect username or password")
         #checking if inputted password is the same as password linked to username in database
         elif not broke:
             error = "User not in database. Register to make an account!"
             return render_template( 'login.html' , error_message = error)
-        else:
-            return render_template( 'login.html' , error_message = "Incorrect username or password")
 
         #PRINT STATEMENT
         c.execute('SELECT * FROM users;')
