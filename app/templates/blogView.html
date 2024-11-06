@@ -6,15 +6,33 @@
   # Due 2024-11-06
   # time spent: 12 days
  -->
-
+<!--
+@app.route("/viewBlog", methods=['GET', 'POST'])
+def blogView(title):
+    if 'username' in session:
+        print("HEYO")
+        # c.execute(f'SELECT * FROM blogs WHERE title = {title};')
+        # blogInfo = c.fetchall()
+    return redirect(url_for('login'))
+  -->
 
 <html>
 
+
   <head>
-    <title>  </title>
+    <title>View Blogs</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
   </head>
 
+
   <body>
+    <h1>
+    Here, you can view your blogs!
+    </h1>
+    <br>
+    <p id = "">{{}<p>
+  </br>
+
 
   </body>
 
