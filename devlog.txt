@@ -66,3 +66,6 @@ ivanG -- 2024-11-06 3:14
 
 tawabB -- 2024-11-6 10:31
 * fixed registering of existing account (added error message)
+
+ivanG -- 2024-11-06 10:49
+* primarily worked on setting up the backend for finding all blogs of a given user.
