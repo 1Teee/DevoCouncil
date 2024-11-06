@@ -48,7 +48,7 @@ db.commit()
 @app.route(("/"), methods=['GET', 'POST'])
 def home():
     if 'username' in session:
-        return render_template( 'home.html' )
+        return render_template( 'home.html', username=session['username']) 
     return redirect(url_for('login'))
 
 @app.route(("/login") , methods=['GET', 'POST'])
@@ -134,16 +134,27 @@ def response():
         return render_template( 'home.html', username = session['username'])
     return redirect(url_for('login'))
 
-@app.route("/createBlog", methods=['GET', 'POST'])
+@app.route("/blogCreate", methods=['GET', 'POST'])
 def blogCreate():
     if 'username' in session:
         if request.method == 'POST':
+            title = request.form['title']
+            summary = request.form['summary']
+            content = request.form['content']
+            author = session['username']
+            datePublished = request.form['datePublished']
+            c.execute("SELECT privatekey FROM users WHERE name = ?", (author,))
+            userKey = c.fetchone()[0]
+            c.execute("INSERT INTO blogs (title, summary, content, author, datePublished, userKey) VALUES (?, ?, ?, ?, ?, ?);",
+            (title, summary, content, author, datePublished, userKey))
+            db.commit()
+            return redirect(url_for('home'))
             # userKey = c.execute(f"SELECT privatekey FROM users WHERE name = {session['username']};")
             # blogData = [request.form['title'], request.form['summary'], request.form['content'], request.form['author'], request.form['datePublished'], userKey]
             # c.execute("INSERT INTO blogs VALUES (?, ?, ?, ?, ?, ?)", blogData)
             # db.commit()
-            print("XYZ")
-        return render_template( 'home.html', username = session['username'])
+            #print("XYZ")
+        return render_template('blogCreate.html', username = session['username'])
     return redirect(url_for('login'))
 
 @app.route("/myBlogs", methods=['GET', 'POST'])
@@ -163,7 +174,7 @@ def blogView(title):
         # blogInfo = c.fetchall()
     return redirect(url_for('login'))
 
-app.route("/allBlogs", methods=['GET', 'POST'])
+@app.route("/allBlogs", methods=['GET', 'POST'])
 def allBlogs():
     if 'username' in session:
         print("HEYO")
