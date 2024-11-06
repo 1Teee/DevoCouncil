@@ -106,6 +106,22 @@ def login():
 @app.route(("/register") , methods=['GET', 'POST'])
 def register():
     if request.method == 'POST':
+        nameInput = request.form['username']
+
+        c.execute("SELECT * FROM users;")
+        d = c.fetchall()
+        broke = False
+        for row in d:
+            #print(".")
+            #print(d[0][0])
+            #print(nameInput)
+            if row[0] == nameInput:
+                broke = True
+                break
+        if (broke):
+            error = "User already in database. Login to access existing account, or register a new one."
+            return render_template( 'login.html' , error_message = error)
+
         session['username'] = request.form['username']
 
         newdata = [request.form['username'], request.form['password'], os.urandom(32)]
@@ -146,9 +162,22 @@ def blogCreate():
             datePublished = request.form['datePublished']
             c.execute("SELECT privatekey FROM users WHERE name = ?", (author,))
             userKey = c.fetchone()[0]
+            c.execute("SELECT * FROM blogs;")
+            d = c.fetchall()
+            broke = False
+            for row in d:
+                if row[0] == title:
+                    broke = True
+                    break
+            if (broke):
+                error = "A blog with that title already exists."
+                return render_template( 'blogCreate.html' , error_message = error)
+
             c.execute("INSERT INTO blogs (title, summary, content, author, datePublished, userKey) VALUES (?, ?, ?, ?, ?, ?);",
             (title, summary, content, author, datePublished, userKey))
             db.commit()
+
+
 
             c.execute('SELECT * FROM blogs;')
             result = c.fetchall()
@@ -167,11 +196,18 @@ def blogCreate():
 
 @app.route("/myBlogs", methods=['GET', 'POST'])
 def editing():
+    print("TRYING TO SEE MY BLOGS")
     if 'username' in session:
         print("HEYO")
-        # userKey = c.execute(f"SELECT privatekey FROM users WHERE name = {session['username']};")
-        # c.execute(f'SELECT * FROM blogs WHERE userKey = {userKey};')
-        # result = c.fetchall()
+        author = session['username']
+        c.execute("SELECT privatekey FROM users WHERE name = ?", (author,))
+        userKey = c.fetchone()[0]
+        c.execute('SELECT * FROM blogs WHERE userKey = ?;', (userKey,))
+        result = c.fetchall()
+        print("MY BLOGS:")
+        for row in result:
+            print(result)
+        return render_template('blogs.html')
     return redirect(url_for('login'))
 
 @app.route("/viewBlog", methods=['GET', 'POST'])
