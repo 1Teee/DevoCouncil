@@ -116,8 +116,6 @@ def register():
             #print(d[0][0])
             #print(nameInput)
             if row[0] == nameInput:
-                userKey = row[1]
-                #print("userkey: " + userKey)
                 broke = True
                 break
         if (broke):
@@ -164,9 +162,22 @@ def blogCreate():
             datePublished = request.form['datePublished']
             c.execute("SELECT privatekey FROM users WHERE name = ?", (author,))
             userKey = c.fetchone()[0]
+            c.execute("SELECT * FROM blogs;")
+            d = c.fetchall()
+            broke = False
+            for row in d:
+                if row[0] == title:
+                    broke = True
+                    break
+            if (broke):
+                error = "A blog with that title already exists."
+                return render_template( 'blogCreate.html' , error_message = error)
+
             c.execute("INSERT INTO blogs (title, summary, content, author, datePublished, userKey) VALUES (?, ?, ?, ?, ?, ?);",
             (title, summary, content, author, datePublished, userKey))
             db.commit()
+
+
 
             c.execute('SELECT * FROM blogs;')
             result = c.fetchall()

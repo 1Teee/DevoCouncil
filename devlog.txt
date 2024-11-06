@@ -66,3 +66,5 @@ ivanG -- 2024-11-06 3:14
 
 tawabB -- 2024-11-6 10:31
 * fixed registering of existing account (added error message)
+tawabB -- 2024-11-6 10:58
+* added error message when user creates blog with title that already exists in database
