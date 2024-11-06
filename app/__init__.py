@@ -106,6 +106,24 @@ def login():
 @app.route(("/register") , methods=['GET', 'POST'])
 def register():
     if request.method == 'POST':
+        nameInput = request.form['username']
+
+        c.execute("SELECT * FROM users;")
+        d = c.fetchall()
+        broke = False
+        for row in d:
+            #print(".")
+            #print(d[0][0])
+            #print(nameInput)
+            if row[0] == nameInput:
+                userKey = row[1]
+                #print("userkey: " + userKey)
+                broke = True
+                break
+        if (broke):
+            error = "User already in database. Login to access existing account, or register a new one."
+            return render_template( 'login.html' , error_message = error)
+
         session['username'] = request.form['username']
 
         newdata = [request.form['username'], request.form['password'], os.urandom(32)]
