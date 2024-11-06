@@ -22,3 +22,50 @@ nav{
 #error {
     color: rgb(255,0,0);
   }
+
+form {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+}
+
+form label {
+    display: block;
+    font-weight: bold;
+    margin-top: 10px;
+}
+
+form input[type="text"], form textarea{
+    width: 100%;
+    padding: 10px;
+    margin-top: 5px;
+    margin-bottom: 15px;
+    border: 1px solid #ddd;
+    border-radius :4px;
+}
+
+form button{
+    padding: 10px 20px;
+    background-color: #007BFF;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+header nav {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    margin-bottom: 20px;
+}
+
+header nav a {
+    text-decoration: none;
+    color: #007BFF;
+    font-weight: bold;
+}
+
