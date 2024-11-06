@@ -63,3 +63,6 @@ alexL -- 2024-11-05 + 2024-11-06 23:46
 ivanG -- 2024-11-06 3:14
 * looked over code and added a debug print statement
 * tried some work on removing a user's info from session if they exit or the session ends, but that failed.
+
+tawabB -- 2024-11-6 10:31
+* fixed registering of existing account (added error message)
