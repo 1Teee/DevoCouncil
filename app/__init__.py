@@ -54,16 +54,41 @@ def home():
 @app.route(("/login") , methods=['GET', 'POST'])
 def login():
     if request.method == 'POST':
-        nameInput = request.form['username']
-        try:
-            userKey = c.execute(f"SELECT password FROM users WHERE name = {nameInput};")
-            print(userKey)
-        except:
-            error_message = "User not in database. Register to make an account!"
+        
+        #PRINT STATEMENT
+        c.execute('SELECT * FROM users;')
+        result = c.fetchall()
+        print("USERS:")
+        for row in result:
+            print(result)
 
+
+        nameInput = request.form['username']
+
+        c.execute("SELECT * FROM users;")
+        d = c.fetchall()
+        broke = False
+        for row in d:
+            #print(".")
+            #print(d[0][0])
+            #print(nameInput)
+            if row[0] == nameInput:
+                userKey = row[1]
+                #print("userkey: " + userKey)
+                broke = True
+                break
+        
+        if broke:
+            #print(userKey + " == " + request.form['password'])
+            if userKey == request.form['password']:
+                #print("gone thru")
+                u = request.form['username']
+                session['username'] = request.form['username']
+                return render_template( 'home.html' , username = u)
         #checking if inputted password is the same as password linked to username in database
-        if userKey == request.form['password']:
-            return redirect(url_for('home'))
+        elif not broke:
+            error = "User not in database. Register to make an account!"
+            return render_template( 'login.html' , error_message = error)
         else:
             return render_template( 'login.html' , error_message = "Incorrect username or password")
 
@@ -83,7 +108,7 @@ def register():
         session['username'] = request.form['username']
 
         newdata = [request.form['username'], request.form['password'], os.urandom(32)]
-        c.execute("INSERT OR IGNORE INTO users VALUES (?, ?, ?);", newdata)
+        c.execute("INSERT INTO users VALUES (?, ?, ?);", newdata)
         db.commit()
 
         #PRINT STATEMENT
@@ -92,7 +117,9 @@ def register():
         print("USERS:")
         for row in result:
             print(result)
-        return redirect(url_for('home'))
+        
+        u = request.form['username']
+        return render_template( 'home.html' , username = u)
     return render_template( 'login.html' )
 
 @app.route("/response", methods=['GET', 'POST'])

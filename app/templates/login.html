@@ -7,12 +7,6 @@
   # time spent: 12 days
  -->
 
-<style>
-#error {
-  color = (255,0,0);
-}
-</style>
-
 <html>
 
   <head>
@@ -29,6 +23,7 @@
       Enter your username below to proceed.
     </h3>
     <form action="/login" method="POST">
+      <h3>Login</h3>
       <p>Username: </p>
       <input type="text" name="username">
       <br><br>
@@ -36,10 +31,18 @@
       <input type="text" name="password">
       <br><br>
       <input type="submit" name="sub1" value="Login">
-
-      <br><br>
+      </form>
+      <form action="/register" method="POST">
+        <h3>Register</h3>
+        <p>Username: </p>
+        <input type="text" name="username">
+        <br><br>
+        <p>Password: </p>
+        <input type="text" name="password">
+        <br><br>
+        <input type="submit" name="sub1" value="Register">
+        </form>
       <p id = "error">{{error_message}}<p>
-    </form>
     <br>
     <!-- <form action="/login" method="POST">
       <input type="text" name="password">

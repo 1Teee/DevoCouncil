@@ -48,3 +48,7 @@ ivanG -- 2024-11-4 10:46
 * added some base code for registering VS logging in. to be worked on by PMTB
 tawabB -- 2024-11-4 11:01
 * built on ivan's code, still working
+
+tawabB -- 2024-11-05 19:47
+* implemented and fixed login and register systems completely
+* added welcome message to home page
