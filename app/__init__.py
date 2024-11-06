@@ -169,9 +169,9 @@ def blogCreate():
 def editing():
     if 'username' in session:
         print("HEYO")
-        # userKey = c.execute(f"SELECT privatekey FROM users WHERE name = {session['username']};")
-        # c.execute(f'SELECT * FROM blogs WHERE userKey = {userKey};')
-        # result = c.fetchall()
+        userKey = c.execute(f"SELECT privatekey FROM users WHERE name = {session['username']};")
+        c.execute(f'SELECT * FROM blogs WHERE userKey = {userKey};')
+        result = c.fetchall()
     return redirect(url_for('login'))
 
 @app.route("/viewBlog", methods=['GET', 'POST'])
