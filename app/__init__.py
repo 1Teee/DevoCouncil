@@ -196,6 +196,7 @@ def editing():
         print("MY BLOGS:")
         for row in result:
             print(result)
+        return render_template('blogs.html')
     return redirect(url_for('login'))
 
 @app.route("/viewBlog", methods=['GET', 'POST'])
