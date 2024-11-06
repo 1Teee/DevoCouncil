@@ -56,6 +56,10 @@ tawabB -- 2024-11-05 19:47
 * added welcome message to home page
 
 alexL -- 2024-11-05 + 2024-11-06 23:46
-* added css styling for form submissions 
+* added css styling for form submissions
 * added html for blogCreate and home (form submissions)
-* implemented blogCreate middle ware 
+* implemented blogCreate middle ware
+
+ivanG -- 2024-11-06 3:14
+* looked over code and added a debug print statement
+* tried some work on removing a user's info from session if they exit or the session ends, but that failed.
