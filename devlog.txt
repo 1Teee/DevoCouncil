@@ -48,7 +48,14 @@ ivanG -- 2024-11-4 10:46
 * added some base code for registering VS logging in. to be worked on by PMTB
 tawabB -- 2024-11-4 11:01
 * built on ivan's code, still working
+alexL -- 2024-11-4 10:50
+* added register page and styling for login page
 
 tawabB -- 2024-11-05 19:47
 * implemented and fixed login and register systems completely
 * added welcome message to home page
+
+alexL -- 2024-11-05 + 2024-11-06 23:46
+* added css styling for form submissions 
+* added html for blogCreate and home (form submissions)
+* implemented blogCreate middle ware 
