@@ -57,11 +57,11 @@ def login():
     if request.method == 'POST':
 
         #PRINT STATEMENT
-        c.execute('SELECT * FROM users;')
-        result = c.fetchall()
-        print("USERS:")
-        for row in result:
-            print(result)
+        #c.execute('SELECT * FROM users;')
+        #result = c.fetchall()
+        #print("USERS:")
+        #for row in result:
+        #    print(result)
 
 
         nameInput = request.form['username']
@@ -94,11 +94,11 @@ def login():
             return render_template( 'login.html' , error_message = error)
 
         #PRINT STATEMENT
-        c.execute('SELECT * FROM users;')
-        result = c.fetchall()
-        print("USERS:")
-        for row in result:
-            print(result)
+        #c.execute('SELECT * FROM users;')
+        #result = c.fetchall()
+        #print("USERS:")
+        #for row in result:
+        #    print(result)
 
         return redirect(url_for('home'))
     return render_template( 'login.html' , error_message = "")
@@ -113,11 +113,11 @@ def register():
         db.commit()
 
         #PRINT STATEMENT
-        c.execute('SELECT * FROM users;')
-        result = c.fetchall()
-        print("USERS:")
-        for row in result:
-            print(result)
+        #c.execute('SELECT * FROM users;')
+        #result = c.fetchall()
+        #print("USERS:")
+        #for row in result:
+        #    print(result)
 
         u = request.form['username']
         return render_template( 'home.html' , username = u)
