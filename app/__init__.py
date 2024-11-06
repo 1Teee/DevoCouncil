@@ -47,14 +47,15 @@ db.commit()
 
 @app.route(("/"), methods=['GET', 'POST'])
 def home():
+    # session.permanent = False
     if 'username' in session:
-        return render_template( 'home.html', username=session['username']) 
+        return render_template( 'home.html', username=session['username'])
     return redirect(url_for('login'))
 
 @app.route(("/login") , methods=['GET', 'POST'])
 def login():
     if request.method == 'POST':
-        
+
         #PRINT STATEMENT
         c.execute('SELECT * FROM users;')
         result = c.fetchall()
@@ -77,7 +78,7 @@ def login():
                 #print("userkey: " + userKey)
                 broke = True
                 break
-        
+
         if broke:
             #print(userKey + " == " + request.form['password'])
             if userKey == request.form['password']:
@@ -117,7 +118,7 @@ def register():
         print("USERS:")
         for row in result:
             print(result)
-        
+
         u = request.form['username']
         return render_template( 'home.html' , username = u)
     return render_template( 'login.html' )
@@ -148,6 +149,13 @@ def blogCreate():
             c.execute("INSERT INTO blogs (title, summary, content, author, datePublished, userKey) VALUES (?, ?, ?, ?, ?, ?);",
             (title, summary, content, author, datePublished, userKey))
             db.commit()
+
+            c.execute('SELECT * FROM blogs;')
+            result = c.fetchall()
+            print("BLOGS:")
+            for row in result:
+                print(result)
+
             return redirect(url_for('home'))
             # userKey = c.execute(f"SELECT privatekey FROM users WHERE name = {session['username']};")
             # blogData = [request.form['title'], request.form['summary'], request.form['content'], request.form['author'], request.form['datePublished'], userKey]
@@ -201,4 +209,5 @@ if __name__ == "__main__": #false if this file imported as module
     app.debug = True
     app.run()
 
+# session.pop('username', None)
 db.close()
