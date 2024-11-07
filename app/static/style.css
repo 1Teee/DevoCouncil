@@ -11,13 +11,28 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 100vh;
+    flex-direction: column;
+    padding: 20px;
 }
 
+header {
+    width: 100%;
+    background-color: #007BFF;
+    color: #fff;
+    padding: 20px;
+    text-align: center;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
+}
+
+header h1 {
+    margin-bottom: 10px;
+}
 
 nav{
-    margin: 20px 0;
-    text-align: center;
+    display: flex;
+    justify-content: center;
+    gap: 15px
 }
 
 #error {
@@ -57,24 +72,57 @@ form button{
     cursor: pointer;
 }
 
-nav button{
-  padding: 10px 20px;
-  background-color: #007BFF;
-  color: #fff;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-}
 
-header nav {
-    display: flex;
-    justify-content: center;
-    gap: 15px;
-    margin-bottom: 20px;
-}
-
-header nav a {
-    text-decoration: none;
-    color: #007BFF;
+nav a {
+    color: white;
     font-weight: bold;
+    text-decoration: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    background-color: #0056b3;
+    transition: background-color 0.3s ease;
+}
+
+.blog-list {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    max-width: 800px;
+    padding: 20px;
+}
+
+.blog-summary {
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 20px;
+    margin: 15px 0;
+    width: 100%;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s;
+}
+
+.blog-summary:hover {
+    transform: scale(1.02);
+}
+
+.blog-summary h2 {
+    color: #007BFF;
+    margin-bottom: 10px;
+}
+
+.blog-summary p {
+    margin: 8px 0;
+    line-height: 1.5;
+}
+
+.blog-summary a {
+    color: #007BFF;
+    text-decoration: underline;
+    font-weight: bold;
+}
+
+.blog-summary a:hover {
+    text-decoration: none;
 }

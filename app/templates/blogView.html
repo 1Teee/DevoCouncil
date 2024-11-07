@@ -20,18 +20,17 @@ def blogView(title):
 
 
   <head>
-    <title>View Blogs</title>
+    <title>{{ blog[0] }}</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
   </head>
 
 
   <body>
-    <h1>
-    Here, you can view your blogs!
-    </h1>
-    <br>
-    <p id = "">{{}<p>
-  </br>
+    <h1>{{ blog[0] }}</h1>
+    <p><strong>Author:</strong> {{ blog[3] }} | <strong>Date:</strong> {{ blog[4] }}</p>
+    <p><strong>Summary:</strong> {{ blog[1] }}</p>
+    <p>{{ blog[2] }}</p>
+    <a href="{{ url_for('home') }}">Back to Home</a>
 
 
   </body>

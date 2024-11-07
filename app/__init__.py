@@ -49,7 +49,9 @@ db.commit()
 def home():
     # session.permanent = False
     if 'username' in session:
-        return render_template( 'home.html', username=session['username'])
+        c.execute("SELECT title, summary, author, datePublished FROM blogs ORDER BY datePublished DESC")
+        blogs = c.fetchall()
+        return render_template( 'home.html', username=session['username'], blogs=blogs)
     return redirect(url_for('login'))
 
 @app.route(("/login") , methods=['GET', 'POST'])
@@ -210,10 +212,15 @@ def editing():
         return render_template('blogs.html')
     return redirect(url_for('login'))
 
-@app.route("/viewBlog", methods=['GET', 'POST'])
+@app.route("/viewBlog<title>", methods=['GET', 'POST'])
 def blogView(title):
     if 'username' in session:
-        print("HEYO")
+        c.execute("SELECT title, summary, content, author, datePublished FROM blogs WHERE title = ?", (title,))
+        blog = c.fetchone()
+        if blog:
+            return render_template('blogView.html', blog=blog)
+        return "Blog not found.", 404
+        #print("HEYO")
         # c.execute(f'SELECT * FROM blogs WHERE title = {title};')
         # blogInfo = c.fetchall()
     return redirect(url_for('login'))
@@ -221,9 +228,12 @@ def blogView(title):
 @app.route("/allBlogs", methods=['GET', 'POST'])
 def allBlogs():
     if 'username' in session:
-        print("HEYO")
+        c.execute("SELECT title, summary, author, datePublished FROM blogs ORDER BY datePublished DESC")
+        blogs = c.fetchall()
+        #print("HEYO")
         # c.execute(f'SELECT * FROM blogs;')
         # blogs = c.fetchall()
+        return render_template('blogs.html', blogs=blogs)
     return redirect(url_for('login'))
 
 @app.route("/logout", methods=['GET', 'POST'])
