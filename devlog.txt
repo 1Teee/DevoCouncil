@@ -81,3 +81,6 @@ tawabB -- 2024-11-06 21:19
 * fixed bug where new users would not see blogs upon first logging in
 tawabB -- 2024-11-06 20:14
 * fixed bug where users could edit blogs of other users
+
+ivanG -- 2024-11-06 22:38
+* took out all our diagnostic prints, and even a full function we weren't using. Also removed unused html templates. Just general cleanup.
