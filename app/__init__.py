@@ -319,8 +319,6 @@ def blogEdit():
             (title, summary, content, author, datePublished, userKey))
             db.commit()
 
-
-
             # c.execute('SELECT * FROM blogs;')
             # result = c.fetchall()
             # print("BLOGS:")
