@@ -86,3 +86,10 @@ ivanG -- 2024-11-06 22:38
 * took out all our diagnostic prints, and even a full function we weren't using. Also removed unused html templates. Just general cleanup.
 ivanG -- 2024-11-06 23:47
 * cleaned up our code a lot with commenting out unused functions, and adding explanatory comments everywhere.
+
+niaL -- 2024-11-7 05:04
+* added delete function
+* added search functionality
+* cleaned up code
+* added a bit of CSS to neaten
+* updated design doc
