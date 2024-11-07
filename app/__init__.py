@@ -336,6 +336,44 @@ def blogEdit():
         return render_template('blogCreate.html', username = session['username'])
     return redirect(url_for('login'))
 
+@app.route("/deleteBlog<title>", methods=['GET', 'POST'])
+def blogDelete(title):
+    if 'username' in session:
+        # get user data
+        c.execute("SELECT author, userKey FROM blogs WHERE title = ?", (title,))
+        blog = c.fetchone()
+        # print("delete blog: ")
+        # print(blog)
+        if blog and blog[0] == session['username']:
+            # check user is author
+            c.execute("DELETE FROM blogs WHERE title = ?", (title,))
+            db.commit()
+            return redirect(url_for('home'))
+            #bring back to home - existing page
+        return "Blog not found.", 404
+        #print("HEYO")
+        # c.execute(f'SELECT * FROM blogs WHERE title = {title};')
+        # blogInfo = c.fetchall()
+    return redirect(url_for('login'))
+
+@app.route("/blogSearch", methods=['GET'])
+def blogSearch():
+    query = request.args.get('query')
+    #user input
+    if query:
+        # get user data
+        #like instead of equal for wider search
+        #'%' + query + '%' - query attach, ignore around
+        c.execute("SELECT title, summary, content, author, datePublished FROM blogs WHERE title LIKE ? OR summary LIKE ? OR content LIKE ? OR author LIKE ?", ('%' + query + '%', '%' + query + '%', '%' + query + '%', '%' + query + '%'))
+        searches = c.fetchall()
+
+        if not searches:
+            return render_template('blogSearch.html', username=session.get('username'), error_message="No matching searches.", query=query)
+        # print("delete blog: ")
+        # print(blog)
+        return render_template('blogSearch.html', username=session.get('username'), blogs=searches, query=query)
+    return redirect(url_for('home'))
+
 # @app.route("/allBlogs", methods=['GET', 'POST'])
 # def allBlogs():
 #     if 'username' in session:

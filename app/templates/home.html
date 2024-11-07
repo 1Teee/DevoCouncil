@@ -25,23 +25,36 @@
   <header>
     <h1>Welcome, {{username}}!</h1>
     <nav>
+      <a href="{{ url_for('home') }}">Home</a>
       <a href="{{ url_for('blogCreate') }}">Create Blog</a>
       <a href="{{ url_for('logout') }}">Logout</a>
     </nav>
   </header>
 
+
+  <form action="{{url_for('blogSearch')}}" method="GET">
+    <input type="text" name="query" placeholder="Search blogs..." required>
+    <button type="submit">Search</button>
+    </form>
+
   <section class="blog-list">
-    {% for title, summary, author, datePublished in blogs %}
+    {% for blog in blogs %}
     <div class="blog-summary">
-      <h2>{{ title }}</h2>
-      <p><strong>Author:</strong> {{ author }} | <strong>Date:</strong> {{ datePublished }}</p>
-      <p>{{ summary }}</p>
-      <a href="{{ url_for('blogView', title=title) }}">Read More</a>
+      <h2>{{ blog[0] }}</h2>
+        <p><strong>Author:</strong> {{ blog[2] }} | <strong>Date:</strong> {{ blog[3] }}</p>
+        <p>{{ blog[1] }}</p>
+        <a href="{{ url_for('blogView', title=blog[0]) }}">Read More</a>
+      <!-- <p>{{ blogs }}</p> -->
     </div>
     {% else %}
-    <p>No blogs to display. Create your first blog post!</p>
+      <p>No blogs to display. Create your first blog post!</p>
     {% endfor %}
   </section>
+  
   </body>
+
+  <footer>
+    DevoCouncil Blogs
+  </footer>
 
 </html>

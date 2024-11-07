@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<!--
+  # Devo Council (Ivan, Tawab, Alex, Nia)
+  # SoftDev
+  # P00: Move Slowly and Fix Things
+  # Due 2024-11-06
+  # time spent: 12 days
+ -->
+
+
+<html>
+
+  <head>
+    <title>Search Blogs</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+  </head>
+
+  <body>
+    <header>
+      <h1>Find a blog</h1>
+      <nav>
+        <a href="{{ url_for('home') }}">Home</a>
+        <a href="{{ url_for('blogCreate') }}">Create Blog</a>
+        <a href="{{ url_for('logout') }}">Logout</a>
+      </nav>
+    </header>
+
+    <h2>Search for "{{ query }}"</h2>
+
+    <!-- from home blog-list -->
+    {% if blogs %}
+        {% for blog in blogs %}
+        <div class="blog-summary">
+            <h2>{{ blog[0] }}</h2>
+                <p><strong>Author:</strong> {{ blog[3] }} | <strong>Date:</strong> {{ blog[4] }}</p>
+                <p>{{ blog[2] }}</p>
+                <a href="{{ url_for('blogView', title=blog[0]) }}">Read More</a>
+        <!-- <p>{{ blogs }}</p> -->
+        </div>
+        {% endfor %}
+        <a href="{{ url_for('home') }}">Return Home</a>
+    {% else %}
+            <p>No matching searches.</p>
+            <br></br>
+            <a href="{{ url_for('home') }}">Return Home</a>
+    {% endif %}
+  </body>
+
+  <footer>
+    DevoCouncil Blogs
+  </footer>
+</html>
