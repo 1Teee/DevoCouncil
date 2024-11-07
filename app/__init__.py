@@ -128,6 +128,8 @@ def register():
         session['username'] = request.form['username']
 
         newdata = [request.form['username'], request.form['password'], os.urandom(32)]
+        print("private key: ")
+        print(newdata[2])
         c.execute("INSERT INTO users VALUES (?, ?, ?);", newdata)
         db.commit()
 
@@ -222,8 +224,17 @@ def blogView(title):
         blog = c.fetchone()
         
         print(blog)
-        c.execute("SELECT privatekey FROM users WHERE name = ?", (blog[3],))
+        c.execute("SELECT privatekey FROM users WHERE name = ?", (session['username'],))
         authorkey = c.fetchone()
+
+        c.execute("SELECT * FROM users")
+        us = c.fetchall()
+        print(blog[3])
+        for person in us:
+            print(person)
+            if person[0] == blog[3]:
+                authorKey = person[2]
+                break
 
         print("====")
         print(authorkey[0])
@@ -234,7 +245,7 @@ def blogView(title):
             if (authorkey[0] == blog[5]): 
                 print("eual is true")
                 return render_template('blogView.html', blog=blog, edit = "Edit this Blog")
-            return render_template('blogView.html', blog=blog)
+            return render_template('blogView.html', blog=blog, edit = "")
         return "Blog not found.", 404
         #print("HEYO")
         # c.execute(f'SELECT * FROM blogs WHERE title = {title};')

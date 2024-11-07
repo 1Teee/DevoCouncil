@@ -79,3 +79,5 @@ alexL -- 2024-11-06 7:10
 tawabB -- 2024-11-06 21:19
 * make it so that the user can edit past blogs, and only their own
 * fixed bug where new users would not see blogs upon first logging in
+tawabB -- 2024-11-06 20:14
+* fixed bug where users could edit blogs of other users
