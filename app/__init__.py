@@ -51,6 +51,7 @@ def home():
     if 'username' in session:
         c.execute("SELECT title, summary, author, datePublished FROM blogs ORDER BY datePublished DESC")
         blogs = c.fetchall()
+        print(blogs)
         return render_template( 'home.html', username=session['username'], blogs=blogs)
     return redirect(url_for('login'))
 
@@ -87,7 +88,7 @@ def login():
                 #print("gone thru")
                 u = request.form['username']
                 session['username'] = request.form['username']
-                return render_template( 'home.html' , username = u)
+                return redirect(url_for('home'))
             else:
                 return render_template( 'login.html' , error_message = "Incorrect username or password")
         #checking if inputted password is the same as password linked to username in database
@@ -138,7 +139,7 @@ def register():
         #    print(result)
 
         u = request.form['username']
-        return render_template( 'home.html' , username = u)
+        return redirect(url_for('home'))
     return render_template( 'login.html' )
 
 @app.route("/response", methods=['GET', 'POST'])

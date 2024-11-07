@@ -78,3 +78,4 @@ alexL -- 2024-11-06 7:10
 * updated css for home page and wrote html for blogView and home so that blogs can be viewed on the homepage
 tawabB -- 2024-11-06 21:19
 * make it so that the user can edit past blogs, and only their own
+* fixed bug where new users would not see blogs upon first logging in
