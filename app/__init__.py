@@ -3,7 +3,7 @@ Devo Council - Tawab Berri, Ivan Gontchar, Nia Lam, Alex Luo
 SoftDev
 2024-10-29
 p00 - Scenario Two - Blog Website
-time spent: 2 hrs
+time spent: 14 hrs
 '''
 from flask import Flask, render_template, request, session, redirect, url_for
 
@@ -148,9 +148,11 @@ def response():
         # if there is a submission with post...
         if request.method == 'POST':
                         # ...then the user pressed the button to logout, and we send them to the logout page
+            #print(request.form)
             return redirect(url_for('logout'))
         # otherwise we display the response page
-        return render_template( 'home.html', username = session['username'])
+        #print(request.form)
+        return redirect(url_for('home'))
     return redirect(url_for('login'))
 
 @app.route("/blogCreate", methods=['GET', 'POST'])
@@ -197,7 +199,7 @@ def blogCreate():
     return redirect(url_for('login'))
 
 @app.route("/myBlogs", methods=['GET', 'POST'])
-def editing():
+def myBlogs():
     print("TRYING TO SEE MY BLOGS")
     if 'username' in session:
         print("HEYO")
@@ -215,14 +217,78 @@ def editing():
 @app.route("/viewBlog<title>", methods=['GET', 'POST'])
 def blogView(title):
     if 'username' in session:
-        c.execute("SELECT title, summary, content, author, datePublished FROM blogs WHERE title = ?", (title,))
+        c.execute("SELECT title, summary, content, author, datePublished, userKey FROM blogs WHERE title = ?", (title,))
         blog = c.fetchone()
+        
+        print(blog)
+        c.execute("SELECT privatekey FROM users WHERE name = ?", (blog[3],))
+        authorkey = c.fetchone()
+
+        print("====")
+        print(authorkey[0])
+        print(blog[5])
+
         if blog:
+            print("blog is true")
+            if (authorkey[0] == blog[5]): 
+                print("eual is true")
+                return render_template('blogView.html', blog=blog, edit = "Edit this Blog")
             return render_template('blogView.html', blog=blog)
         return "Blog not found.", 404
         #print("HEYO")
         # c.execute(f'SELECT * FROM blogs WHERE title = {title};')
         # blogInfo = c.fetchall()
+    return redirect(url_for('login'))
+
+@app.route("/editBlog<title>", methods=['GET', 'POST'])
+def editing(title):
+    if 'username' in session:
+        c.execute("SELECT title, summary, content, author, datePublished, userKey FROM blogs WHERE title = ?", (title,))
+        blog = c.fetchone()
+        print("editting blog: ")
+        print(blog)
+        if blog:
+            return render_template('editing.html', blog=blog )
+        return "Blog not found.", 404
+        #print("HEYO")
+        # c.execute(f'SELECT * FROM blogs WHERE title = {title};')
+        # blogInfo = c.fetchall()
+    return redirect(url_for('login'))
+
+@app.route("/blogEdit", methods=['GET', 'POST'])
+def blogEdit():
+    if 'username' in session:
+        if request.method == 'POST':
+            c.execute("DELETE FROM blogs WHERE title = ?", (request.form['title'],))
+            title = request.form['title']
+            summary = request.form['summary']
+            content = request.form['content']
+            author = session['username']
+            datePublished = request.form['datePublished']
+            c.execute("SELECT privatekey FROM users WHERE name = ?", (author,))
+            userKey = c.fetchone()[0]
+            c.execute("SELECT * FROM blogs;")
+            d = c.fetchall()
+
+            c.execute("INSERT INTO blogs (title, summary, content, author, datePublished, userKey) VALUES (?, ?, ?, ?, ?, ?);",
+            (title, summary, content, author, datePublished, userKey))
+            db.commit()
+
+
+
+            c.execute('SELECT * FROM blogs;')
+            result = c.fetchall()
+            print("BLOGS:")
+            for row in result:
+                print(result)
+
+            return redirect(url_for('home'))
+            # userKey = c.execute(f"SELECT privatekey FROM users WHERE name = {session['username']};")
+            # blogData = [request.form['title'], request.form['summary'], request.form['content'], request.form['author'], request.form['datePublished'], userKey]
+            # c.execute("INSERT INTO blogs VALUES (?, ?, ?, ?, ?, ?)", blogData)
+            # db.commit()
+            #print("XYZ")
+        return render_template('blogCreate.html', username = session['username'])
     return redirect(url_for('login'))
 
 @app.route("/allBlogs", methods=['GET', 'POST'])

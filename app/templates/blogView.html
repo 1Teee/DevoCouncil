@@ -29,7 +29,10 @@ def blogView(title):
     <h1>{{ blog[0] }}</h1>
     <p><strong>Author:</strong> {{ blog[3] }} | <strong>Date:</strong> {{ blog[4] }}</p>
     <p><strong>Summary:</strong> {{ blog[1] }}</p>
+    <br><br>
     <p>{{ blog[2] }}</p>
+    <br><br>
+    <a href="{{ url_for('editing', title=blog[0]) }}">{{edit}}</a>
     <a href="{{ url_for('home') }}">Back to Home</a>
 
 
