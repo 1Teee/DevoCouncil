@@ -69,8 +69,12 @@ tawabB -- 2024-11-6 10:31
 
 ivanG -- 2024-11-06 10:49
 * primarily worked on setting up the backend for finding all blogs of a given user.
-tawabB -- 2024-11-6 10:58
+tawabB -- 2024-11-06 10:58
 * added error message when user creates blog with title that already exists in database
+alexL -- 2024-11-06 10:50
+* added nav css and began blogView html
 
+alexL -- 2024-11-06 7:10
+* updated css for home page and wrote html for blogView and home so that blogs can be viewed on the homepage
 tawabB -- 2024-11-06 21:19
 * make it so that the user can edit past blogs, and only their own
