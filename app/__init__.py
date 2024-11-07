@@ -51,7 +51,7 @@ def home():
     if 'username' in session:
         c.execute("SELECT title, summary, author, datePublished FROM blogs ORDER BY datePublished DESC")
         blogs = c.fetchall()
-        print(blogs)
+        # print(blogs)
         return render_template( 'home.html', username=session['username'], blogs=blogs)
     return redirect(url_for('login'))
 
@@ -128,8 +128,8 @@ def register():
         session['username'] = request.form['username']
 
         newdata = [request.form['username'], request.form['password'], os.urandom(32)]
-        print("private key: ")
-        print(newdata[2])
+        # print("private key: ")
+        # print(newdata[2])
         c.execute("INSERT INTO users VALUES (?, ?, ?);", newdata)
         db.commit()
 
@@ -184,13 +184,11 @@ def blogCreate():
             (title, summary, content, author, datePublished, userKey))
             db.commit()
 
-
-
-            c.execute('SELECT * FROM blogs;')
-            result = c.fetchall()
-            print("BLOGS:")
-            for row in result:
-                print(result)
+            # c.execute('SELECT * FROM blogs;')
+            # result = c.fetchall()
+            # print("BLOGS:")
+            # for row in result:
+            #     print(result)
 
             return redirect(url_for('home'))
             # userKey = c.execute(f"SELECT privatekey FROM users WHERE name = {session['username']};")
@@ -201,49 +199,49 @@ def blogCreate():
         return render_template('blogCreate.html', username = session['username'])
     return redirect(url_for('login'))
 
-@app.route("/myBlogs", methods=['GET', 'POST'])
-def myBlogs():
-    print("TRYING TO SEE MY BLOGS")
-    if 'username' in session:
-        print("HEYO")
-        author = session['username']
-        c.execute("SELECT privatekey FROM users WHERE name = ?", (author,))
-        userKey = c.fetchone()[0]
-        c.execute('SELECT * FROM blogs WHERE userKey = ?;', (userKey,))
-        result = c.fetchall()
-        print("MY BLOGS:")
-        for row in result:
-            print(result)
-        return render_template('blogs.html')
-    return redirect(url_for('login'))
+# @app.route("/myBlogs", methods=['GET', 'POST'])
+# def myBlogs():
+#     # print("TRYING TO SEE MY BLOGS")
+#     if 'username' in session:
+#         print("HEYO")
+#         author = session['username']
+#         c.execute("SELECT privatekey FROM users WHERE name = ?", (author,))
+#         userKey = c.fetchone()[0]
+#         c.execute('SELECT * FROM blogs WHERE userKey = ?;', (userKey,))
+#         result = c.fetchall()
+#         print("MY BLOGS:")
+#         for row in result:
+#             print(result)
+#         return render_template('blogs.html')
+#     return redirect(url_for('login'))
 
 @app.route("/viewBlog<title>", methods=['GET', 'POST'])
 def blogView(title):
     if 'username' in session:
         c.execute("SELECT title, summary, content, author, datePublished, userKey FROM blogs WHERE title = ?", (title,))
         blog = c.fetchone()
-        
-        print(blog)
+
+        # print(blog)
         c.execute("SELECT privatekey FROM users WHERE name = ?", (session['username'],))
         authorkey = c.fetchone()
 
         c.execute("SELECT * FROM users")
         us = c.fetchall()
-        print(blog[3])
+        # print(blog[3])
         for person in us:
-            print(person)
+            # print(person)
             if person[0] == blog[3]:
                 authorKey = person[2]
                 break
 
-        print("====")
-        print(authorkey[0])
-        print(blog[5])
+        # print("====")
+        # print(authorkey[0])
+        # print(blog[5])
 
         if blog:
-            print("blog is true")
-            if (authorkey[0] == blog[5]): 
-                print("eual is true")
+            # print("blog is true")
+            if (authorkey[0] == blog[5]):
+                # print("eual is true")
                 return render_template('blogView.html', blog=blog, edit = "Edit this Blog")
             return render_template('blogView.html', blog=blog, edit = "")
         return "Blog not found.", 404
@@ -257,8 +255,8 @@ def editing(title):
     if 'username' in session:
         c.execute("SELECT title, summary, content, author, datePublished, userKey FROM blogs WHERE title = ?", (title,))
         blog = c.fetchone()
-        print("editting blog: ")
-        print(blog)
+        # print("editting blog: ")
+        # print(blog)
         if blog:
             return render_template('editing.html', blog=blog )
         return "Blog not found.", 404
@@ -288,11 +286,11 @@ def blogEdit():
 
 
 
-            c.execute('SELECT * FROM blogs;')
-            result = c.fetchall()
-            print("BLOGS:")
-            for row in result:
-                print(result)
+            # c.execute('SELECT * FROM blogs;')
+            # result = c.fetchall()
+            # print("BLOGS:")
+            # for row in result:
+            #     print(result)
 
             return redirect(url_for('home'))
             # userKey = c.execute(f"SELECT privatekey FROM users WHERE name = {session['username']};")
