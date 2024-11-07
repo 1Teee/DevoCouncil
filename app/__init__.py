@@ -14,12 +14,14 @@ app = Flask(__name__)    #create Flask object
 DB_FILE = "database.db" #create a database for private keys storage
 
 # makin' a supa-secret key
-app.secret_key = "1234"
+app.secret_key = os.urandom(32)
 
 db = sqlite3.connect(DB_FILE, check_same_thread=False) #open if file exists, otherwise create
 c = db.cursor()  #facilitate db ops -- you will use cursor to trigger db events
 
 #c.execute("DROP TABLE users;")
+
+# making a table for users
 c.execute(
 '''
 CREATE TABLE IF NOT EXISTS users (
@@ -30,6 +32,7 @@ CREATE TABLE IF NOT EXISTS users (
 ''')
 
 
+# making a table for blog entries
 c.execute(
 '''
 CREATE TABLE IF NOT EXISTS blogs (
@@ -41,22 +44,25 @@ CREATE TABLE IF NOT EXISTS blogs (
         userKey TEXT
         );
 ''')
-# add more data rows as needed
 db.commit()
 
 
 @app.route(("/"), methods=['GET', 'POST'])
 def home():
-    # session.permanent = False
+    # check if someone is logged in
     if 'username' in session:
+        # get all blogs
         c.execute("SELECT title, summary, author, datePublished FROM blogs ORDER BY datePublished DESC")
         blogs = c.fetchall()
         # print(blogs)
+        # render the home page
         return render_template( 'home.html', username=session['username'], blogs=blogs)
+    # else have them log in
     return redirect(url_for('login'))
 
 @app.route(("/login") , methods=['GET', 'POST'])
 def login():
+    # if submission
     if request.method == 'POST':
 
         #PRINT STATEMENT
@@ -72,6 +78,7 @@ def login():
         c.execute("SELECT * FROM users;")
         d = c.fetchall()
         broke = False
+        # checking if this username is already in the database
         for row in d:
             #print(".")
             #print(d[0][0])
@@ -82,17 +89,24 @@ def login():
                 broke = True
                 break
 
+        # if there is...
         if broke:
             #print(userKey + " == " + request.form['password'])
+
+            # check if entered password matches up
             if userKey == request.form['password']:
                 #print("gone thru")
                 u = request.form['username']
+                # add them to session
                 session['username'] = request.form['username']
+                # send them home
                 return redirect(url_for('home'))
             else:
+                # we tell them they messed up
                 return render_template( 'login.html' , error_message = "Incorrect username or password")
         #checking if inputted password is the same as password linked to username in database
         elif not broke:
+            # tell them to register
             error = "User not in database. Register to make an account!"
             return render_template( 'login.html' , error_message = error)
 
@@ -114,6 +128,7 @@ def register():
         c.execute("SELECT * FROM users;")
         d = c.fetchall()
         broke = False
+        # check if same name user is in database
         for row in d:
             #print(".")
             #print(d[0][0])
@@ -122,6 +137,7 @@ def register():
                 broke = True
                 break
         if (broke):
+            # tell them to change
             error = "User already in database. Login to access existing account, or register a new one."
             return render_template( 'login.html' , error_message = error)
 
@@ -130,6 +146,8 @@ def register():
         newdata = [request.form['username'], request.form['password'], os.urandom(32)]
         # print("private key: ")
         # print(newdata[2])
+
+        # else add their info into the table
         c.execute("INSERT INTO users VALUES (?, ?, ?);", newdata)
         db.commit()
 
@@ -144,24 +162,25 @@ def register():
         return redirect(url_for('home'))
     return render_template( 'login.html' )
 
-@app.route("/response", methods=['GET', 'POST'])
-def response():
-    # if we have info on the person, aka their username...
-    if 'username' in session:
-        # if there is a submission with post...
-        if request.method == 'POST':
-                        # ...then the user pressed the button to logout, and we send them to the logout page
-            #print(request.form)
-            return redirect(url_for('logout'))
-        # otherwise we display the response page
-        #print(request.form)
-        return redirect(url_for('home'))
-    return redirect(url_for('login'))
+# @app.route("/response", methods=['GET', 'POST'])
+# def response():
+#     # if we have info on the person, aka their username...
+#     if 'username' in session:
+#         # if there is a submission with post...
+#         if request.method == 'POST':
+#                         # ...then the user pressed the button to logout, and we send them to the logout page
+#             #print(request.form)
+#             return redirect(url_for('logout'))
+#         # otherwise we display the response page
+#         #print(request.form)
+#         return redirect(url_for('home'))
+#     return redirect(url_for('login'))
 
 @app.route("/blogCreate", methods=['GET', 'POST'])
 def blogCreate():
     if 'username' in session:
         if request.method == 'POST':
+            # store all entered info
             title = request.form['title']
             summary = request.form['summary']
             content = request.form['content']
@@ -172,14 +191,17 @@ def blogCreate():
             c.execute("SELECT * FROM blogs;")
             d = c.fetchall()
             broke = False
+            # checking if a blog with the same title exists already, since that is our primary key
             for row in d:
                 if row[0] == title:
                     broke = True
                     break
             if (broke):
+                # tell them they messed up
                 error = "A blog with that title already exists."
                 return render_template( 'blogCreate.html' , error_message = error)
 
+            # add it all to the database
             c.execute("INSERT INTO blogs (title, summary, content, author, datePublished, userKey) VALUES (?, ?, ?, ?, ?, ?);",
             (title, summary, content, author, datePublished, userKey))
             db.commit()
@@ -215,9 +237,12 @@ def blogCreate():
 #         return render_template('blogs.html')
 #     return redirect(url_for('login'))
 
+
+# generate the viewing page for a given blog
 @app.route("/viewBlog<title>", methods=['GET', 'POST'])
 def blogView(title):
     if 'username' in session:
+        # get all info on a blog with the passed title
         c.execute("SELECT title, summary, content, author, datePublished, userKey FROM blogs WHERE title = ?", (title,))
         blog = c.fetchone()
 
@@ -228,6 +253,8 @@ def blogView(title):
         c.execute("SELECT * FROM users")
         us = c.fetchall()
         # print(blog[3])
+
+        # finding key info of author
         for person in us:
             # print(person)
             if person[0] == blog[3]:
@@ -238,11 +265,14 @@ def blogView(title):
         # print(authorkey[0])
         # print(blog[5])
 
+        # do we have info on this blog we can load?
         if blog:
             # print("blog is true")
             if (authorkey[0] == blog[5]):
                 # print("eual is true")
+                # if this is the author checking this out, then give an option to edit
                 return render_template('blogView.html', blog=blog, edit = "Edit this Blog")
+            # otherwise no editing
             return render_template('blogView.html', blog=blog, edit = "")
         return "Blog not found.", 404
         #print("HEYO")
@@ -253,11 +283,13 @@ def blogView(title):
 @app.route("/editBlog<title>", methods=['GET', 'POST'])
 def editing(title):
     if 'username' in session:
+        # get all data on a blog
         c.execute("SELECT title, summary, content, author, datePublished, userKey FROM blogs WHERE title = ?", (title,))
         blog = c.fetchone()
         # print("editting blog: ")
         # print(blog)
         if blog:
+            # if info found, we load up the editor
             return render_template('editing.html', blog=blog )
         return "Blog not found.", 404
         #print("HEYO")
@@ -268,7 +300,9 @@ def editing(title):
 @app.route("/blogEdit", methods=['GET', 'POST'])
 def blogEdit():
     if 'username' in session:
+        # if there is a submission (the input from editing.html gets sent here)...
         if request.method == 'POST':
+            # delete the old data for this blog
             c.execute("DELETE FROM blogs WHERE title = ?", (request.form['title'],))
             title = request.form['title']
             summary = request.form['summary']
@@ -280,6 +314,7 @@ def blogEdit():
             c.execute("SELECT * FROM blogs;")
             d = c.fetchall()
 
+            # load in the new data
             c.execute("INSERT INTO blogs (title, summary, content, author, datePublished, userKey) VALUES (?, ?, ?, ?, ?, ?);",
             (title, summary, content, author, datePublished, userKey))
             db.commit()
@@ -301,26 +336,28 @@ def blogEdit():
         return render_template('blogCreate.html', username = session['username'])
     return redirect(url_for('login'))
 
-@app.route("/allBlogs", methods=['GET', 'POST'])
-def allBlogs():
-    if 'username' in session:
-        c.execute("SELECT title, summary, author, datePublished FROM blogs ORDER BY datePublished DESC")
-        blogs = c.fetchall()
-        #print("HEYO")
-        # c.execute(f'SELECT * FROM blogs;')
-        # blogs = c.fetchall()
-        return render_template('blogs.html', blogs=blogs)
-    return redirect(url_for('login'))
+# @app.route("/allBlogs", methods=['GET', 'POST'])
+# def allBlogs():
+#     if 'username' in session:
+#         c.execute("SELECT title, summary, author, datePublished FROM blogs ORDER BY datePublished DESC")
+#         blogs = c.fetchall()
+#         #print("HEYO")
+#         # c.execute(f'SELECT * FROM blogs;')
+#         # blogs = c.fetchall()
+#         return render_template('blogs.html', blogs=blogs)
+#     return redirect(url_for('login'))
 
 @app.route("/logout", methods=['GET', 'POST'])
 def logout():
     if 'username' in session:
         if request.method == 'POST':
+            # if they clicked the logout button..
             if request.form.get("logout") is not None:
+                # log them out
                 session.pop('username', None)
                 return redirect(url_for('login'))
             else:
-                return redirect(url_for('response'))
+                return redirect(url_for('home'))
         return render_template( 'logout.html', username = session['username'])
 
     return redirect(url_for('login'))
@@ -332,4 +369,6 @@ if __name__ == "__main__": #false if this file imported as module
     app.run()
 
 # session.pop('username', None)
+
+# close it up
 db.close()
