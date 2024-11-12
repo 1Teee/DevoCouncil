@@ -93,3 +93,7 @@ niaL -- 2024-11-7 05:04
 * cleaned up code
 * added a bit of CSS to neaten
 * updated design doc
+
+ivanG -- 2024-11-12 16:49
+* fixed errors with other users being able to edit/delete blogs
+* fixed another error with the edit and delete buttons not redirecting properly
