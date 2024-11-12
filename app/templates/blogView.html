@@ -36,14 +36,10 @@ def blogView(title):
     <br><br>
 
     <!-- buttons and links -->
-    <form action="{{ url_for('editing', title=blog[0]) }}" method="GET">
-      <button type="submit">Edit</button>
-    </form>
-    
+    {{ edit|safe }}
 
-    <form action="{{url_for('blogDelete', title=blog[0])}}" method="POST">
-      <button type="submit"> Delete</button>
-    </form>
+
+    {{ delete|safe }} </form>
 
 
     <form action="{{ url_for('home') }}" method="GET">
@@ -52,7 +48,7 @@ def blogView(title):
 
   </body>
 
-  
+
   <footer>
     DevoCouncil Blogs
   </footer>

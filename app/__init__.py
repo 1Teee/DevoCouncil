@@ -269,9 +269,11 @@ def blogView(title):
         if blog:
             # print("blog is true")
             if (authorkey[0] == blog[5]):
+                editCode = '''<form action="{{ url_for('editing', title=blog[0]) }}" method="GET"> <button type="submit">Edit</button></form>'''
+                deleteCode = '''<form action="{{url_for('blogDelete', title=blog[0])}}" method="POST"><button type="submit"> Delete</button></form>'''
                 # print("eual is true")
                 # if this is the author checking this out, then give an option to edit
-                return render_template('blogView.html', blog=blog, edit = "Edit this Blog")
+                return render_template('blogView.html', blog=blog, edit = editCode, delete = deleteCode)
             # otherwise no editing
             return render_template('blogView.html', blog=blog, edit = "")
         return "Blog not found.", 404
