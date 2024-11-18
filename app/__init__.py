@@ -288,11 +288,16 @@ def editing(title):
         # get all data on a blog
         c.execute("SELECT title, summary, content, author, datePublished, userKey FROM blogs WHERE title = ?", (title,))
         blog = c.fetchone()
-        # print("editting blog: ")
-        # print(blog)
+
+        print(blog)
         if blog:
+            blogkey = blog[3]
+            if blogkey == session['username']:
             # if info found, we load up the editor
-            return render_template('editing.html', blog=blog )
+
+                return render_template('editing.html', blog=blog )
+            else:
+                return redirect(url_for('home'))
         return "Blog not found.", 404
         #print("HEYO")
         # c.execute(f'SELECT * FROM blogs WHERE title = {title};')
