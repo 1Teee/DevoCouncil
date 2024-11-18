@@ -355,7 +355,7 @@ def blogDelete(title):
             db.commit()
             return redirect(url_for('home'))
             #bring back to home - existing page
-        return "Blog not found.", 404
+        return redirect(url_for("home"))
         #print("HEYO")
         # c.execute(f'SELECT * FROM blogs WHERE title = {title};')
         # blogInfo = c.fetchall()
