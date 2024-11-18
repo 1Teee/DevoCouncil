@@ -99,5 +99,8 @@ ivanG -- 2024-11-12 16:49
 * fixed another error with the edit and delete buttons not redirecting properly
 * changed the text boxes for password to be type password, so user input is censored
 
+alexL -- 2024-11-12 21:20
+* fixed ununiformness of the login page 
+
 tawabB -- 2024-11-17 21:29
 * users can no longer edit or delete other users' blogs by typing the corresponding url in the search bar

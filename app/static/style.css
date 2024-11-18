@@ -132,3 +132,12 @@ nav a {
 .blog-summary a:hover {
     text-decoration: none;
 }
+
+.pw2 {
+    width: 100%;
+    padding: 10px;
+    margin-top: 5px;
+    margin-bottom: 15px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+}
